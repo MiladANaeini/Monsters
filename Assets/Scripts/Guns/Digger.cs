@@ -5,22 +5,21 @@ using UnityEngine;
 public class DiggerZone : MonoBehaviour
 {
     public int damage = 3;
-    private Health targetHealth;
     private Coroutine attackCoroutine;
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.layer == LayerMask.NameToLayer("Building"))
         {
-            targetHealth = collider.GetComponent<Health>();
+            Health health = collider.GetComponent<Health>();
 
-            if (targetHealth != null)
+            if (health != null)
             {
-                Debug.Log("Building entered: " + collider.name);  
+                Debug.Log("Building entered: " + collider.name);
 
                 if (attackCoroutine == null)
                 {
-                    attackCoroutine = StartCoroutine(AttackSequence());
+                    attackCoroutine = StartCoroutine(AttackSequence(health));
                 }
             }
         }
@@ -30,22 +29,22 @@ public class DiggerZone : MonoBehaviour
     {
         if (collider.gameObject.layer == LayerMask.NameToLayer("Building"))
         {
+            Debug.Log("Building exited: " + collider.name);
+
             if (attackCoroutine != null)
             {
                 StopCoroutine(attackCoroutine);
-                attackCoroutine = null;
-                Debug.Log("Building exited: " + collider.name);  
+                attackCoroutine = null; 
             }
         }
     }
 
-    private IEnumerator AttackSequence()
+    private IEnumerator AttackSequence(Health health)
     {
-        while (targetHealth != null && targetHealth.health > 0)
+        while (health != null && health.health > 0)
         {
-            Debug.Log("Damaging building: " + targetHealth.name + " Health: " + targetHealth.health);
-            targetHealth.TakeDamage(damage);  
-            yield return new WaitForSeconds(1f); 
+            health.TakeDamage(damage);
+            yield return new WaitForSeconds(1f);
         }
 
         attackCoroutine = null;
