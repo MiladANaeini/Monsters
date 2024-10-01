@@ -103,13 +103,14 @@ MonoBehaviour:
   maxHealth: 2
   health: 0
   moveSpeed: 2
-  chaseFreeRoam: 1
+  chaseFreeRoam: 0
   chaseInRange: 5
   useSinMovement: 1
   waveAmplitude: 0.02
   waveFrequency: 2
   enemyBlood: {fileID: 5832016478787541665, guid: 1d12c22615e96524b9dabb6f52993271, type: 3}
-  EnemyXp: {fileID: 73692973755732420, guid: e3d0488befb3b9b41ba77231eab2522e, type: 3}
+  enemyXp: {fileID: 0}
+  damageAmount: 1
 --- !u!114 &3361281348021689744
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SnakeLavaSpawner : MonoBehaviour
+public class EnemySpawner : MonoBehaviour
 {
-    public GameObject snakeLavaPrefab;
+    public GameObject EnemyPreFab;
 
     public float minimumSpawnTime;
     public float maximumSpawnTime;
@@ -23,7 +23,6 @@ public class SnakeLavaSpawner : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (playingState != null && GamesManager.instance.currentState is PlayingState) { 
@@ -31,7 +30,7 @@ public class SnakeLavaSpawner : MonoBehaviour
         timeUntilSpawn -= Time.deltaTime;
         if (timeUntilSpawn <= 0)
         {
-            SpawnSnakeLava();
+            SpawnEnemy();
             SetTimeUntilSpawn();
         }
         }
@@ -42,17 +41,14 @@ public class SnakeLavaSpawner : MonoBehaviour
         timeUntilSpawn = Random.Range(minimumSpawnTime, maximumSpawnTime);
 
     }
-    private void SpawnSnakeLava()
+    private void SpawnEnemy()
     {
-        // Instantiate the enemy prefab
-        GameObject spawnedEnemy = Instantiate(snakeLavaPrefab, transform.position, Quaternion.identity);
+        GameObject spawnedEnemy = Instantiate(EnemyPreFab, transform.position, Quaternion.identity);
 
-        // Get the Enemy component from the spawned object
         Enemy enemyComponent = spawnedEnemy.GetComponent<Enemy>();
 
         if (enemyComponent != null && playingState != null)
         {
-            // Add the new enemy to the PlayingState's enemy list
             playingState.AddEnemy(enemyComponent);
         }
         else

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 354066711949069241}
   - component: {fileID: 938098454069085818}
   m_Layer: 12
-  m_Name: SnakeLavaSpawner
+  m_Name: EnemySpawnerPF
   m_TagString: Enemy
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

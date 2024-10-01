@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3454773649019229296}
   - component: {fileID: 2770076286880484014}
   - component: {fileID: 8790041925568385940}
-  - component: {fileID: -3619525475728156089}
+  - component: {fileID: -6531754668602763338}
   m_Layer: 14
   m_Name: scifiStructure_15
   m_TagString: Untagged
@@ -131,7 +131,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.28, y: 1.28}
   m_EdgeRadius: 0
---- !u!114 &-3619525475728156089
+--- !u!114 &-6531754668602763338
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,8 +140,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1493617197602338354}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35e917d7e043e4f4f85f519db8546a45, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e4bb0e064894bc4d971afe798f5932e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
   health: 0
+  buildingHit: {fileID: 5832016478787541665, guid: 693961235f8411740abe2a8b6e6743f4, type: 3}
