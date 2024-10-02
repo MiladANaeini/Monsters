@@ -24,6 +24,8 @@ public class PlayerMovement : Health
     public Slider amberXPSlider;// Speed Boost
     public Slider blueXPSlider;// Shovel
     public Menu menu;
+    [HideInInspector]
+    public int score;
 
     public GameObject gameOverMenu;
 
