@@ -23,6 +23,8 @@ public class PlayerMovement : Health
     public Slider healthSlider;
     public Slider amberXPSlider;// Speed Boost
     public Slider blueXPSlider;// Shovel
+    public Menu menu;
+
     public GameObject gameOverMenu;
 
     public GameObject speedBoostUI; // parent GameObject of speedtext and speedtimer
@@ -62,8 +64,9 @@ public class PlayerMovement : Health
 
         if (health <= 0)
         {
-            Time.timeScale = 0f;
-            gameOverMenu.SetActive(true);
+            //gameOverMenu.SetActive(true);
+            menu.switchState(Menu.MenuState.gameOverMenu);
+            menu.PauseGame();
             Destroy(gameObject); // destroy the player character
         }
     }

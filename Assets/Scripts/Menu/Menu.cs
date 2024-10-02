@@ -11,6 +11,7 @@ public class Menu : MonoBehaviour
         mainMenu = 1,
         pauseMenu = 2,
         optionsMenu = 3,
+        gameOverMenu = 4,
     }
 
     public MenuState state;
@@ -18,6 +19,7 @@ public class Menu : MonoBehaviour
     public GameObject mainMenuUI;
     public GameObject pauseMenuUI;
     public GameObject optionsMenuUI;
+    public GameObject gameOverMenuUI;
     public static bool gameHasStarted = false;
     private MenuState previousState; // Added variable
 
@@ -74,11 +76,10 @@ public class Menu : MonoBehaviour
         mainMenuUI.SetActive(aState == MenuState.mainMenu);
         pauseMenuUI.SetActive(aState == MenuState.pauseMenu);
         optionsMenuUI.SetActive(aState == MenuState.optionsMenu);
+        gameOverMenuUI.SetActive(aState == MenuState.gameOverMenu);
         state = aState;
         previousState = state;
         Debug.Log("Current state: " + state);
-
-
     }
     public void Back()
     {
