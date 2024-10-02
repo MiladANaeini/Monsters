@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class Buildings : Health
@@ -17,12 +18,13 @@ public class Buildings : Health
 
     public void UpdateSprite()
     {
+        //the hit particles for buildings
+        GameObject hitParticles = Instantiate(buildingHit, transform.position, Quaternion.identity);
+        Destroy(hitParticles, 2f);
 
-            GameObject hit = Instantiate(buildingHit, transform.position, Quaternion.identity);
-            Destroy(hit, 2f);
         if (health <= 0)
         {
-            Destroy(gameObject);  
+            ObjectPoolManager.RetrunObjectToPool(gameObject);
         }
     }
 }

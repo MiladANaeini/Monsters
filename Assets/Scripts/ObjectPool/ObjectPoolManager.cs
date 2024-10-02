@@ -28,7 +28,9 @@ public class ObjectPoolManager : MonoBehaviour
         {
             //if there are no inactive objects we create new one
             spawnableObj = Instantiate(objectToSpawn, spawnPosition, spawnRotation);
-        }else
+
+        }
+        else
         {
             spawnableObj.transform.position = spawnPosition;
             spawnableObj.transform.rotation = spawnRotation;
@@ -60,6 +62,7 @@ public class ObjectPoolManager : MonoBehaviour
 
 public class PooledObjectInfo
 {
+
     public string lookupString;
     public List<GameObject> InactiveObjects = new List<GameObject> ();
 }

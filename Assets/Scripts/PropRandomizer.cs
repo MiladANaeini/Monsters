@@ -11,17 +11,12 @@ public class PropRandomizer : MonoBehaviour
         SpawnProps();
     }
 
-    void Update()
-    {
-        
-    }
-
     void SpawnProps()
     {
         foreach (GameObject sp in propSpawnPoints)
         {
             int rand = Random.Range(0, propPrefabs.Count);
-           GameObject prop = Instantiate(propPrefabs[rand], sp.transform.position, Quaternion.identity);
+            GameObject prop = ObjectPoolManager.SpawnObject(propPrefabs[rand], sp.transform.position, sp.transform.rotation);
 
             // make random object a child of the PropLocation
             prop.transform.parent = sp.transform;

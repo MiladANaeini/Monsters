@@ -15,8 +15,6 @@ public class DiggerZone : MonoBehaviour
 
             if (health != null)
             {
-                Debug.Log("Building entered: " + collider.name);
-
                 if (attackCoroutine == null)
                 {
                     attackCoroutine = StartCoroutine(AttackSequence(health));
@@ -29,8 +27,6 @@ public class DiggerZone : MonoBehaviour
     {
         if (collider.gameObject.layer == LayerMask.NameToLayer("Building"))
         {
-            Debug.Log("Building exited: " + collider.name);
-
             if (attackCoroutine != null)
             {
                 StopCoroutine(attackCoroutine);

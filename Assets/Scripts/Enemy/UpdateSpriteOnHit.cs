@@ -10,7 +10,6 @@ public class UpdateSpriteOnHit : MonoBehaviour
 
     void Start()
     {
-        // Get the SpriteRenderer component attached to the enemy
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
     public void ChangeSprite()

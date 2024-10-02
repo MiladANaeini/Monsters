@@ -37,7 +37,7 @@ public class Enemy : Health
 
             Destroy(blood, 2f);
 
-            Destroy(gameObject);
+            ObjectPoolManager.RetrunObjectToPool(gameObject);
             Instantiate(enemyXp, transform.position, Quaternion.identity);
 
         }

@@ -43,7 +43,7 @@ public class EnemySpawner : MonoBehaviour
     }
     private void SpawnEnemy()
     {
-        GameObject spawnedEnemy = Instantiate(EnemyPreFab, transform.position, Quaternion.identity);
+        GameObject spawnedEnemy = ObjectPoolManager.SpawnObject(EnemyPreFab,transform.position,transform.rotation);
 
         Enemy enemyComponent = spawnedEnemy.GetComponent<Enemy>();
 

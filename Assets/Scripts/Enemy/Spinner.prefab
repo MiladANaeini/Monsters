@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 3361281348021689744}
   - component: {fileID: 3261644709914042936}
   - component: {fileID: 3319061830056256362}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Spinner
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b75d3850eed7223449f4b29229c6e620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 2
+  maxHealth: 5
   health: 0
   moveSpeed: 2
   chaseFreeRoam: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   waveAmplitude: 0.02
   waveFrequency: 2
   enemyBlood: {fileID: 5832016478787541665, guid: 1d12c22615e96524b9dabb6f52993271, type: 3}
-  enemyXp: {fileID: 0}
+  enemyXp: {fileID: 7296083982745444786, guid: 8cd0025f2ddd1b146a27967dad67bc5b, type: 3}
   damageAmount: 1
 --- !u!114 &3361281348021689744
 MonoBehaviour:
