@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Enemy : Health
@@ -16,14 +17,15 @@ public class Enemy : Health
     public GameObject enemyBlood;
     public GameObject enemyXp;
     public int damageAmount = 1;
-
-
+    private PlayerMovement playerMovement; 
     protected override void Start()
     {
         base.Start();
+
         if (player == null)
         {
            player = FindObjectOfType<PlayerMovement>()?.gameObject;
+         playerMovement = player.GetComponent<PlayerMovement>();
         }
         updateSpriteOnHit = GetComponent<UpdateSpriteOnHit>();
         onHealthChanged += UpdateSprite;
@@ -37,6 +39,12 @@ public class Enemy : Health
 
             Destroy(blood, 2f);
 
+            if (playerMovement != null)
+            {
+                playerMovement.kills += 1;
+                playerMovement.killsNumber.text = playerMovement.kills.ToString();
+
+            }
             ObjectPoolManager.RetrunObjectToPool(gameObject);
             Instantiate(enemyXp, transform.position, Quaternion.identity);
 

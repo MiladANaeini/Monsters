@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6590614892208123889}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.3505344, y: -6.3965225, z: 0}
+  m_LocalPosition: {x: 0.4802878, y: -3.686821, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -143,6 +143,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e4bb0e064894bc4d971afe798f5932e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 1
   health: 0
   buildingHit: {fileID: 5832016478787541665, guid: 693961235f8411740abe2a8b6e6743f4, type: 3}
+  myPlayer: {fileID: 0}
+  pointsUI: {fileID: 0}
+  xpNumber: {fileID: 0}
+  levelNumber: {fileID: 0}
