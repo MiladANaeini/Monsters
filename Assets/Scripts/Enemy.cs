@@ -17,15 +17,13 @@ public class Enemy : Health
     public GameObject enemyBlood;
     public GameObject enemyXp;
     public int damageAmount = 1;
-    private PlayerMovement playerMovement; 
-    protected override void Start()
+        protected override void Start()
     {
         base.Start();
 
         if (player == null)
         {
            player = FindObjectOfType<PlayerMovement>()?.gameObject;
-         playerMovement = player.GetComponent<PlayerMovement>();
         }
         updateSpriteOnHit = GetComponent<UpdateSpriteOnHit>();
         onHealthChanged += UpdateSprite;
@@ -35,16 +33,12 @@ public class Enemy : Health
         updateSpriteOnHit.ChangeSprite();
         if (health <= 0)
         {
+            GamesManager.instance.OnEnemyDestroyed();
+
             GameObject blood = Instantiate(enemyBlood, transform.position, Quaternion.identity);
 
             Destroy(blood, 2f);
 
-            if (playerMovement != null)
-            {
-                playerMovement.kills += 1;
-                playerMovement.killsNumber.text = playerMovement.kills.ToString();
-
-            }
             ObjectPoolManager.RetrunObjectToPool(gameObject);
             Instantiate(enemyXp, transform.position, Quaternion.identity);
 

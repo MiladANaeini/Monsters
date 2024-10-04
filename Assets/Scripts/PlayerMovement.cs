@@ -25,22 +25,13 @@ public class PlayerMovement : Health
     public Slider amberXPSlider;// Speed Boost
     public Slider blueXPSlider;// Shovel
     public Menu menu;
-    [HideInInspector]
-    public int score;
-    [HideInInspector]
-    public int level;
-    public int levelUpPoint = 60;
-    public TMP_Text levelNumber;
-    public TMP_Text xpNumber;
-    public int kills;
-    public TMP_Text killsNumber;
     private PropRandomizer propRandomizer;
     public GameObject gameOverMenu;
 
     public GameObject speedBoostUI; // parent GameObject of speedtext and speedtimer
     private TMP_Text speedText;
     private TMP_Text speedTimer;
-
+ 
 
     [HideInInspector]
     public int blueXP = 0;
@@ -50,17 +41,6 @@ public class PlayerMovement : Health
     protected override void Start()
     {
         base.Start();
-        kills = 0;
-        killsNumber.text = kills.ToString();
-        level = 1;
-        levelNumber.text = level.ToString();
-        DiggerZone diggerZone = FindObjectOfType<DiggerZone>();
-        propRandomizer = FindObjectOfType<PropRandomizer>();
-
-        if (diggerZone != null)
-        {
-            diggerZone.OnBuildingDestroyed += UpdateScoreAndLevel;
-        }
         rb = GetComponent<Rigidbody2D>();
         am = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
@@ -209,41 +189,6 @@ public class PlayerMovement : Health
     {
         XPAmount++;
         XPSlider.value = XPAmount; 
-    }
-    private void UpdateScoreAndLevel(int scoreIncrement)
-    {
-        score += scoreIncrement; // Add score from destroyed building (typically 10 points per building)
-        xpNumber.text = score.ToString(); // Update UI with new score
-
-        // Check if the score has reached the next level-up point
-        if (score >= levelUpPoint)
-        {
-            LevelUp();
-        }
-    }
-    private void LevelUp()
-    {
-        level++; // Increment player level
-        levelUpPoint += 60; // Increase the next level-up point by 60 points
-        levelNumber.text = level.ToString(); // Update the UI with new level
-
-        Debug.Log("Player leveled up to: " + level);
-        Debug.Log("Next level-up point at: " + levelUpPoint);
-
-        // Respawn props after leveling up
-        if (propRandomizer != null)
-        {
-            StartCoroutine(SpawnPropsAfterDelay()); // Trigger the respawn with delay
-        }
-        else
-        {
-            Debug.LogWarning("PropRandomizer is missing.");
-        }
-    }
-    private IEnumerator SpawnPropsAfterDelay()
-    {
-        yield return new WaitForSeconds(3f); // Wait for 3 seconds before respawning
-        propRandomizer.SpawnProps(); // Respawn all props after the delay
     }
 
 

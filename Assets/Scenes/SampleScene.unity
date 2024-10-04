@@ -2033,7 +2033,16 @@ MonoBehaviour:
   - {fileID: 624884571}
   currentState: {fileID: 0}
   myPlayer: {fileID: 1561543525}
-  myEnemy: {fileID: 0}
+  propRandomizer: {fileID: 0}
+  score: 0
+  level: 0
+  kills: 0
+  xp: 0
+  levelUpPoint: 60
+  xpNumber: {fileID: 1482987835}
+  killsNumber: {fileID: 1154041307}
+  levelNumber: {fileID: 330416183}
+  allBuildings: []
 --- !u!1 &614581312
 GameObject:
   m_ObjectHideFlags: 0
@@ -5634,13 +5643,6 @@ MonoBehaviour:
   amberXPSlider: {fileID: 666959843}
   blueXPSlider: {fileID: 1906022915}
   menu: {fileID: 63575290}
-  score: 0
-  level: 0
-  levelUpPoint: 60
-  levelNumber: {fileID: 330416183}
-  xpNumber: {fileID: 1482987835}
-  kills: 0
-  killsNumber: {fileID: 1154041307}
   gameOverMenu: {fileID: 1992484162}
   speedBoostUI: {fileID: 1250939772}
   blueXP: 0

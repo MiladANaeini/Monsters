@@ -7,7 +7,6 @@ public class DiggerZone : MonoBehaviour
 {
     public int damage = 3;
     private Coroutine attackCoroutine;
-    public event Action<int> OnBuildingDestroyed;
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.layer == LayerMask.NameToLayer("Building"))
@@ -23,7 +22,7 @@ public class DiggerZone : MonoBehaviour
             }
             if (health.health <= 0)
             {
-                OnBuildingDestroyed?.Invoke(10);
+                GamesManager.instance.OnBuildingDestroyed();
             }
         }
     }
