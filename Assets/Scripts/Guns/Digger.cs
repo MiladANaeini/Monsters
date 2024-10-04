@@ -5,23 +5,26 @@ using UnityEngine;
 
 public class DiggerZone : MonoBehaviour
 {
-    public int damage = 3;
+    public int damage = 1;
     private Coroutine attackCoroutine;
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.layer == LayerMask.NameToLayer("Building"))
         {
             Health health = collider.GetComponent<Health>();
-
             if (health != null)
             {
                 if (attackCoroutine == null)
                 {
+                    Debug.Log("Building health is zero or less: " + health.health);
                     attackCoroutine = StartCoroutine(AttackSequence(health));
+
                 }
             }
             if (health.health <= 0)
             {
+                Debug.Log("call");
+
                 GamesManager.instance.OnBuildingDestroyed();
             }
         }

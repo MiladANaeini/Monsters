@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,12 +8,15 @@ using UnityEngine;
 public class Buildings : Health
 {
     public GameObject buildingHit;
-   
+
+
 
     protected override void Start()
     {
-        base.Start();
 
+        base.Start();
+     
+        Debug.Log("Building Initial Health: " + health);
         onHealthChanged += UpdateSprite;
        
 
@@ -23,6 +27,7 @@ public class Buildings : Health
         //the hit particles for buildings
         GameObject hitParticles = Instantiate(buildingHit, transform.position, Quaternion.identity);
         Destroy(hitParticles, 2f);
+        Debug.Log("health" + health);
 
         if (health <= 0)
         {
@@ -30,4 +35,6 @@ public class Buildings : Health
            
         }
     }
+
 }
+

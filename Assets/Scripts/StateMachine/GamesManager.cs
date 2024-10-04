@@ -52,37 +52,23 @@ public class GamesManager : StateMachine
     {
         updateStateMachine();
     }
-    public void OnBuildingDestroyed()
-    {
-        AddXP(10); // Add 10 XP per building destroyed
-    } 
     public void OnEnemyDestroyed()
     {
-        kills++; // Increment the kill count
+        kills++; 
 
-        killsNumber.text = kills.ToString(); // Update UI
+        killsNumber.text = kills.ToString(); 
     }
-    public void AddXP(int points)
+    public void OnBuildingDestroyed()
     {
-        xp += points;
-        xpNumber.text = xp.ToString(); // Update XP UI
-        CheckForLevelUp();
-    }
-    public void AddKill()
-    {
-        kills++;
-
-        // Update the kills number UI
-        killsNumber.text = kills.ToString();
-    }
-
-    private void CheckForLevelUp()
-    {
+        xp += 10;
+        Debug.Log("xp" + xp);
+        Debug.Log("levelUpPoint" + levelUpPoint);
+        xpNumber.text = xp.ToString();
         if (xp >= levelUpPoint)
         {
             LevelUp();
         }
-    }
+    } 
     private void LevelUp()
     {
         level++;
@@ -90,24 +76,10 @@ public class GamesManager : StateMachine
 
         levelNumber.text = level.ToString();
         Invoke("SpawnPropsAfterLevelUp", 3f);
-        // Optionally, update building health or difficulty after level-up
-        //UpdateBuildingHealth();
 
-        Debug.Log("Player leveled up to: " + level);
-        Debug.Log("Next level-up point at: " + levelUpPoint);
     }
     private void SpawnPropsAfterLevelUp()
     {
         propRandomizer.SpawnProps();
     }
-    //private void UpdateBuildingHealth()
-    //{
-    //    foreach (Buildings building in allBuildings)
-    //    {
-    //        if (building != null)
-    //        {
-    //            building.IncreaseHealth(level); // Example: Scale building health with player level
-    //        }
-    //    }
-    //}
 }

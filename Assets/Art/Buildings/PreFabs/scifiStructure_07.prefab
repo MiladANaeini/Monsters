@@ -146,7 +146,3 @@ MonoBehaviour:
   maxHealth: 1
   health: 0
   buildingHit: {fileID: 5832016478787541665, guid: 693961235f8411740abe2a8b6e6743f4, type: 3}
-  myPlayer: {fileID: 0}
-  pointsUI: {fileID: 0}
-  xpNumber: {fileID: 0}
-  levelNumber: {fileID: 0}
