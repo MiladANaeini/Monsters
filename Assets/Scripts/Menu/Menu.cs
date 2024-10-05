@@ -12,6 +12,7 @@ public class Menu : MonoBehaviour
         pauseMenu = 2,
         optionsMenu = 3,
         gameOverMenu = 4,
+        levelUpMenu = 5,
     }
 
     public MenuState state;
@@ -20,11 +21,25 @@ public class Menu : MonoBehaviour
     public GameObject pauseMenuUI;
     public GameObject optionsMenuUI;
     public GameObject gameOverMenuUI;
+    public GameObject levelUpMenuUI;
     public static bool gameHasStarted = false;
     private MenuState previousState; // Added variable
-
+    private Dictionary<MenuState, GameObject> menuUIs;
+    private void Awake()
+    {
+        // Initialize the dictionary with all your menus
+        menuUIs = new Dictionary<MenuState, GameObject>
+    {
+        { MenuState.mainMenu, mainMenuUI },
+        { MenuState.pauseMenu, pauseMenuUI },
+        { MenuState.optionsMenu, optionsMenuUI },
+        { MenuState.gameOverMenu, gameOverMenuUI },
+        { MenuState.levelUpMenu, levelUpMenuUI },
+    };
+    }
     private void Start()
     {
+        GamesManager.OnLevelUp += HandleLevelUp;
         if (!gameHasStarted)
         {
             switchState(MenuState.mainMenu);
@@ -69,16 +84,21 @@ public class Menu : MonoBehaviour
         isPaused = false;
         switchState(MenuState.None);
     }
-
-
-     public void switchState(MenuState aState)
+    public void HandleLevelUp()
     {
-        mainMenuUI.SetActive(aState == MenuState.mainMenu);
-        pauseMenuUI.SetActive(aState == MenuState.pauseMenu);
-        optionsMenuUI.SetActive(aState == MenuState.optionsMenu);
-        gameOverMenuUI.SetActive(aState == MenuState.gameOverMenu);
+        isPaused = true;
+        switchState(MenuState.levelUpMenu);
+        Time.timeScale = 0f;
+    }
+
+
+    public void switchState(MenuState aState)
+    {
+        foreach (var menu in menuUIs)
+        {
+            menu.Value.SetActive(menu.Key == aState);
+        }
         state = aState;
-        previousState = state;
         Debug.Log("Current state: " + state);
     }
     public void Back()
