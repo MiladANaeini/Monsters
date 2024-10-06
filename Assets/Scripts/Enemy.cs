@@ -67,8 +67,6 @@ public class Enemy : Health
             EnemyAnimation();
         }
 
-        Debug.Log($"MoveSpeed: {moveSpeed}, DeltaTime: {Time.deltaTime}, TimeScale: {Time.timeScale}");
-
     }
     private void EnemyAnimation()
     {

@@ -32,8 +32,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void SetTimeUntilSpawn()
     {
-        Debug.Log("minimumSpawnTime" + minimumSpawnTime);
-        Debug.Log("maximumSpawnTime" + maximumSpawnTime);
+     
         timeUntilSpawn = Random.Range(minimumSpawnTime, maximumSpawnTime);
 
     }

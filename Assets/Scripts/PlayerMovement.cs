@@ -194,5 +194,12 @@ public class PlayerMovement : Health
         XPSlider.value = XPAmount; 
     }
 
+    public void IncreaseMaxHealth(int amount)
+    {
+        maxHealth += amount; // Increase max health
+        health += amount; // Optionally heal the player by the same amount
+        healthSlider.maxValue = maxHealth; // Update the health slider
+        healthSlider.value = health; // Reflect current health
+    }
 
 }

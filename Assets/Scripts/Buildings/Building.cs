@@ -16,7 +16,6 @@ public class Buildings : Health
 
         base.Start();
      
-        Debug.Log("Building Initial Health: " + health);
         onHealthChanged += UpdateSprite;
        
 
@@ -27,7 +26,6 @@ public class Buildings : Health
         //the hit particles for buildings
         GameObject hitParticles = Instantiate(buildingHit, transform.position, Quaternion.identity);
         Destroy(hitParticles, 2f);
-        Debug.Log("health" + health);
 
         if (health <= 0)
         {
