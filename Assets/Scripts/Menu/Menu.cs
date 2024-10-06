@@ -76,11 +76,11 @@ public class Menu : MonoBehaviour
     {
         isPaused = true;
         switchState(MenuState.pauseMenu);
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
     public void ResumeGame()
     {
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
         isPaused = false;
         switchState(MenuState.None);
     }
@@ -88,9 +88,14 @@ public class Menu : MonoBehaviour
     {
         isPaused = true;
         switchState(MenuState.levelUpMenu);
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
-
+    public void GameOver()
+    {
+        isPaused = true;
+        switchState(MenuState.gameOverMenu);
+        //Time.timeScale = 0f;
+    }
 
     public void switchState(MenuState aState)
     {

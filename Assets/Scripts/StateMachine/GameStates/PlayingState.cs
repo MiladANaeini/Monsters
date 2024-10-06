@@ -7,11 +7,11 @@ public class PlayingState : State
     public PlayerMovement myPlayer;
     public List<Enemy> myEnemies = new List<Enemy>();
     private GunController myGunController;
-
+    private List<EnemySpawner> enemySpawners = new List<EnemySpawner>();
     public override void enterState()
     {
         base.enterState();
-        Time.timeScale = 1f; // Will be removed after refactor
+        //Time.timeScale = 1f; // Will be removed after refactor
         if (myPlayer == null)
         {
             Debug.LogError("PlayerMovement reference (myPlayer) is not assigned!");
@@ -20,6 +20,11 @@ public class PlayingState : State
         if (myGunController == null)
         {
             myGunController = myPlayer.GetComponentInChildren<GunController>();
+        }
+        enemySpawners.AddRange(FindObjectsOfType<EnemySpawner>());
+        if (enemySpawners.Count == 0)
+        {
+            Debug.LogError("No EnemySpawner found in the scene!");
         }
         myEnemies.AddRange(GameObject.FindObjectsOfType<Enemy>());
         if (myEnemies.Count == 0)
@@ -47,6 +52,10 @@ public class PlayingState : State
             {
                 myEnemies.RemoveAt(i);
             }
+        }
+        foreach (EnemySpawner spawner in enemySpawners)
+        {
+            spawner.UpdateEnemySpawner();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))

@@ -16,11 +16,11 @@ public class CanvasControl : MonoBehaviour
             pauseMenuCanvas.SetActive(isPaused);
             if (isPaused)
             {
-                Time.timeScale = 0f; 
+                //Time.timeScale = 0f; 
             }
             else
             {
-                Time.timeScale = 1f;
+                //Time.timeScale = 1f;
             }
         }
     }

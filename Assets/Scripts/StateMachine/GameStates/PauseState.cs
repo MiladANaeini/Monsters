@@ -7,7 +7,7 @@ public class PauseState : State
     public override void enterState()
     {
         base.enterState();
-        Time.timeScale = 0f; // Will be removed 
+        //Time.timeScale = 0f; // Will be removed 
 
     }
 

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class PlayerMovement : Health
 {
+    public Vector2 startingPosition;
     public float moveSpeed = 5f;
     private float originalMoveSpeed;
     Animator am;
@@ -44,6 +45,8 @@ public class PlayerMovement : Health
         rb = GetComponent<Rigidbody2D>();
         am = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        startingPosition = transform.position;
+
         healthSlider.maxValue = maxHealth; 
         healthSlider.value = health;
 
@@ -68,7 +71,7 @@ public class PlayerMovement : Health
         {
             //gameOverMenu.SetActive(true);
             menu.switchState(Menu.MenuState.gameOverMenu);
-            menu.PauseGame();
+            menu.GameOver();
             Destroy(gameObject); // destroy the player character
         }
     }

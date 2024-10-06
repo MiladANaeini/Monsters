@@ -10,22 +10,16 @@ public class EnemySpawner : MonoBehaviour
     public float maximumSpawnTime;
 
     private float timeUntilSpawn;
-    public PlayingState playingState;
 
     void Awake()
     {
         SetTimeUntilSpawn();
-        playingState = FindObjectOfType<PlayingState>();
-
-        if (playingState == null)
-        {
-            Debug.LogError("PlayingState not found!");
-        }
+      
     }
 
-    void Update()
+   public void UpdateEnemySpawner()
     {
-        if (playingState != null && GamesManager.instance.currentState is PlayingState) { 
+  
         
         timeUntilSpawn -= Time.deltaTime;
         if (timeUntilSpawn <= 0)
@@ -33,11 +27,13 @@ public class EnemySpawner : MonoBehaviour
             SpawnEnemy();
             SetTimeUntilSpawn();
         }
-        }
+        
     }
 
     private void SetTimeUntilSpawn()
     {
+        Debug.Log("minimumSpawnTime" + minimumSpawnTime);
+        Debug.Log("maximumSpawnTime" + maximumSpawnTime);
         timeUntilSpawn = Random.Range(minimumSpawnTime, maximumSpawnTime);
 
     }
@@ -47,9 +43,13 @@ public class EnemySpawner : MonoBehaviour
 
         Enemy enemyComponent = spawnedEnemy.GetComponent<Enemy>();
 
-        if (enemyComponent != null && playingState != null)
+        if (enemyComponent != null)
         {
-            playingState.AddEnemy(enemyComponent);
+            PlayingState playingState = FindObjectOfType<PlayingState>();
+            if (playingState != null)
+            {
+                playingState.AddEnemy(enemyComponent); 
+            }
         }
         else
         {

@@ -47,18 +47,18 @@ public class Enemy : Health
 
    public void UpdateEnemy()
     {
-        if (player != null)
+        if (Time.timeScale > 0 && player != null)
         {
         distance = Vector2.Distance(transform.position, player.transform.position);
         Vector2 direction = (player.transform.position - transform.position).normalized;
 
         if (chaseFreeRoam)
         {
-            transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, moveSpeed * Time.unscaledDeltaTime);
 
         } else if (!chaseFreeRoam && !useSinMovement && distance < chaseInRange)
         {
-            transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, moveSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, moveSpeed * Time.unscaledDeltaTime);
 
         } else if (useSinMovement)
         {
@@ -66,10 +66,13 @@ public class Enemy : Health
         }
             EnemyAnimation();
         }
+
+        Debug.Log($"MoveSpeed: {moveSpeed}, DeltaTime: {Time.deltaTime}, TimeScale: {Time.timeScale}");
+
     }
     private void EnemyAnimation()
     {
-        float scaleFactor = Mathf.Lerp(1f, 1.1f, Mathf.PingPong(Time.time * 2, 1));
+        float scaleFactor = Mathf.Lerp(1f, 1.1f, Mathf.PingPong(Time.deltaTime * 2, 1));
         transform.localScale = new Vector3(scaleFactor, scaleFactor, transform.localScale.z);
     }
     void MoveInSinPattern(Vector2 direction)
@@ -79,7 +82,7 @@ public class Enemy : Health
        
         Vector2 perpendicular = new Vector2(-direction.y, direction.x);
 
-        float waveOffset = Mathf.Sin(Time.time * waveFrequency) * waveAmplitude;
+        float waveOffset = Mathf.Sin(Time.unscaledTime * waveFrequency) * waveAmplitude;
 
         Vector2 waveMovement = perpendicular * waveOffset;
 
