@@ -16,15 +16,12 @@ public class DiggerZone : MonoBehaviour
             {
                 if (attackCoroutine == null)
                 {
-                    Debug.Log("Building health is zero or less: " + health.health);
                     attackCoroutine = StartCoroutine(AttackSequence(health));
 
                 }
             }
             if (health.health <= 0)
             {
-                Debug.Log("call");
-
                 GamesManager.instance.OnBuildingDestroyed();
             }
         }

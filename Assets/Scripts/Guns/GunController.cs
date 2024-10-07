@@ -9,7 +9,15 @@ public class GunController : MonoBehaviour
     public float projectileSpeed= 10f;
     public Transform shootPoint;
     private Transform closestEnemy;
-    public float timer;
+    private float timer;
+    public float shootingInterval = 0.5f;
+    public Vector2 startingPosition;
+
+    private void Start()
+    {
+        startingPosition = transform.position;
+
+    }
 
 
     private void OnTriggerExit2D(Collider2D collider)
@@ -44,7 +52,7 @@ public class GunController : MonoBehaviour
             {
                 RoatateGunTowardsEnemy();
                 timer += Time.deltaTime;
-                if (timer > 0.5)
+                if (timer > shootingInterval)
                 {
                     timer = 0;
                     ShootProjectile();
@@ -81,9 +89,16 @@ public class GunController : MonoBehaviour
 
     void ShootProjectile()
     {
+        
         GameObject projectile = ObjectPoolManager.SpawnObject(projectilePrefab, shootPoint.position, shootPoint.rotation);
+        Debug.Log($"Projectile instantiated at: {projectile.transform.position}, Active: {projectile.activeSelf}");
+
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
         rb.velocity = shootPoint.right * projectileSpeed;
+    }
+    public void IncreaseShootingRate(int amount)
+    {
+        shootingInterval = shootingInterval / amount; // Increase FireRate
     }
 }
 

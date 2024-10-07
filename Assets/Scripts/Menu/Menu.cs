@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 
@@ -22,6 +23,8 @@ public class Menu : MonoBehaviour
     public GameObject optionsMenuUI;
     public GameObject gameOverMenuUI;
     public GameObject levelUpMenuUI;
+    public TMP_Text killsText;
+    public TMP_Text levelText;
     public static bool gameHasStarted = false;
     private MenuState previousState; // Added variable
     private Dictionary<MenuState, GameObject> menuUIs;
@@ -94,6 +97,7 @@ public class Menu : MonoBehaviour
     {
         isPaused = true;
         switchState(MenuState.gameOverMenu);
+        UpdateGameOverUI();
         //Time.timeScale = 0f;
     }
 
@@ -132,5 +136,10 @@ public class Menu : MonoBehaviour
         }
 
         Debug.Log($"Current state after back: {state}");
+    }
+    private void UpdateGameOverUI()
+    {
+        killsText.text = "Kills: " + GamesManager.instance.kills.ToString(); 
+        levelText.text = "Level: " + GamesManager.instance.level.ToString(); 
     }
 }

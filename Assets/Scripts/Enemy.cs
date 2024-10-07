@@ -97,4 +97,10 @@ public class Enemy : Health
             playerMovement.TakeDamage(damageAmount);
         }
     }
+    public void ResetHealth()
+    {
+        updateSpriteOnHit?.RevertToOriginalSprite();
+        health = maxHealth; 
+        updateSpriteOnHit?.RevertToOriginalSprite(); 
+    }
 }

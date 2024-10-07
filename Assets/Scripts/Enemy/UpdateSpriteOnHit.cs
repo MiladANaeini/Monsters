@@ -29,4 +29,11 @@ public class UpdateSpriteOnHit : MonoBehaviour
             spriteRenderer.sprite = originalSprite;
         }
     }
+    public void RevertToOriginalSprite()
+    {
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sprite = originalSprite;
+        }
+    }
 }

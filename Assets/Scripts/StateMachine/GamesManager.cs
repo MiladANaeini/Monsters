@@ -12,20 +12,30 @@ public class GamesManager : StateMachine
 
     public PlayerMovement myPlayer;
     public PropRandomizer propRandomizer;
+    public GunController gunController;
+    public BulletProjectile bulletProjectile;
     public int level;
     public int kills;
     public int xp; 
+    public int myLevelUpPonts; //check for required points
     public int levelUpPoint = 60; 
     public TMP_Text xpNumber;      
     public TMP_Text killsNumber;   
     public TMP_Text levelNumber;
 
     public Button healthUpgradeButton;
+    public Button gunUpgradeButton;
     private int healthUpgradeCost = 80;  // Starting cost for health upgrade
+    private int gunUpgradeCost = 80;  // Starting cost for health upgrade
     private bool hasPurchasedHealthUpgrade = false;
-    public TMP_Text upgradeText;   // Description text for the upgrade
-    public TMP_Text priceText;     // Text to display the cost of the upgrade
-    public Button upgradeButton;
+    private bool hasPurchasedGunUpgrade = false;
+
+    public TMP_Text upgradeHealthText;   
+    public TMP_Text upgradeHealthPriceText;
+    
+    public TMP_Text upgradeGunText;   
+    public TMP_Text upgradeGunPriceText;    
+
     private void Awake()
     {
         instance = this;// Singleton instance
@@ -33,7 +43,9 @@ public class GamesManager : StateMachine
 
     private void Start()
     {
+        bulletProjectile = FindObjectOfType<BulletProjectile>();
         propRandomizer = FindObjectOfType<PropRandomizer>();
+        gunController = FindObjectOfType<GunController>();
         if (!Menu.gameHasStarted)
         {
             switchState<PauseState>();
@@ -41,6 +53,7 @@ public class GamesManager : StateMachine
         level = 1;
         kills = 0;
         xp = 0;
+        myLevelUpPonts = 0;
         levelUpPoint = 60;
 
         SetupUpgradeUI();
@@ -50,16 +63,19 @@ public class GamesManager : StateMachine
     private void SetupUpgradeUI()
     {
         // Set static upgrade description
-        upgradeText.text = "+ 5 Health";
+        upgradeHealthText.text = "+ 5 Health";
+        upgradeGunText.text = "2X F Rate";
 
         // Set initial price text
-        priceText.text = $"{healthUpgradeCost} XP";
+        upgradeHealthPriceText.text = $"{healthUpgradeCost} XP";
+        upgradeGunPriceText.text = $"{gunUpgradeCost} XP";
 
         // Add the listener for the upgrade button
         healthUpgradeButton.onClick.AddListener(HealthUpgrade);
-
-        // Initial update of the upgrade button state
+        gunUpgradeButton.onClick.AddListener(GunUpgrade);
         UpdateUpgradeButtons();
+
+
     }
     private void UpdateUI()
     {
@@ -82,8 +98,9 @@ public class GamesManager : StateMachine
     public void OnBuildingDestroyed()
     {
         xp += 10;
+        myLevelUpPonts += 10;
         xpNumber.text = xp.ToString();
-        if (xp >= levelUpPoint)
+        if (myLevelUpPonts >= levelUpPoint)
         {
             LevelUp();
         }
@@ -97,6 +114,7 @@ public class GamesManager : StateMachine
         OnLevelUp?.Invoke();
 
         hasPurchasedHealthUpgrade = false;
+        hasPurchasedGunUpgrade = false;
 
         UpdateUpgradeButtons();
 
@@ -110,6 +128,7 @@ public class GamesManager : StateMachine
         int currentLevel = level;
         int currentKills = kills;
         int currentXP = xp;
+        int currentmyLevelUp = myLevelUpPonts;
         int currentLevelUpPoint = levelUpPoint;
 
         // Reset game state
@@ -120,9 +139,11 @@ public class GamesManager : StateMachine
         level = currentLevel; // Keep current level
         kills = currentKills; // Keep current kills
         xp = currentXP;       // Keep current XP
+        myLevelUpPonts = currentmyLevelUp;       // Keep current XP
         levelUpPoint = currentLevelUpPoint;       // Keep current XP
 
         myPlayer.transform.position = myPlayer.startingPosition;
+        gunController.transform.position = gunController.startingPosition;
 
         propRandomizer.SpawnProps();
 
@@ -134,6 +155,7 @@ public class GamesManager : StateMachine
         Enemy[] enemies = FindObjectsOfType<Enemy>();
         foreach (Enemy enemy in enemies)
         {
+            enemy.ResetHealth();
             ObjectPoolManager.RetrunObjectToPool(enemy.gameObject);
         }
 
@@ -156,26 +178,51 @@ public class GamesManager : StateMachine
             myPlayer.IncreaseMaxHealth(5);  
 
             hasPurchasedHealthUpgrade = true;  
-            healthUpgradeCost *= 2;  
+            healthUpgradeCost *= 2;
 
             // Update price text and disable the button after purchase
-            priceText.text = $"Cost: {healthUpgradeCost} XP";
-            upgradeButton.interactable = false;
+            upgradeHealthPriceText.text = $"Cost: {healthUpgradeCost} XP";
+            healthUpgradeButton.interactable = false;
+        }
+    }    public void GunUpgrade()
+    {
+        if (xp >= gunUpgradeCost && !hasPurchasedGunUpgrade)
+        {
+            xp -= gunUpgradeCost;  
+            xpNumber.text = xp.ToString();
+
+            gunController.IncreaseShootingRate(2);
+
+            hasPurchasedGunUpgrade = true;  
+            gunUpgradeCost *= 2;
+
+            // Update price text and disable the button after purchase
+            upgradeGunPriceText.text = $"Cost: {gunUpgradeCost} XP";
+            gunUpgradeButton.interactable = false;
         }
     }
-
     public void UpdateUpgradeButtons()
     {
        
         if (xp >= healthUpgradeCost && !hasPurchasedHealthUpgrade)
         {
-            upgradeButton.interactable = true; 
+            healthUpgradeButton.interactable = true; 
         }
         else
         {
-            upgradeButton.interactable = false;  
+            healthUpgradeButton.interactable = false;  
         }
-            priceText.text = $"Cost: {healthUpgradeCost} XP";  
+        upgradeHealthPriceText.text = $"Cost: {healthUpgradeCost} XP"; 
+        
+        if (xp >= gunUpgradeCost && !hasPurchasedGunUpgrade)
+        {
+            gunUpgradeButton.interactable = true; 
+        }
+        else
+        {
+            gunUpgradeButton.interactable = false;  
+        }
+        upgradeGunPriceText.text = $"Cost: {gunUpgradeCost} XP";  
     }
 
 }
