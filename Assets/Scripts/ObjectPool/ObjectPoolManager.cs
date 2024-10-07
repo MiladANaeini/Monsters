@@ -35,7 +35,7 @@ public class ObjectPoolManager : MonoBehaviour
             spawnableObj.transform.position = spawnPosition;
             spawnableObj.transform.rotation = spawnRotation;
             pool.InactiveObjects.Remove(spawnableObj);
-            spawnableObj?.SetActive(false);
+            spawnableObj?.SetActive(true);
         }
         return spawnableObj;
   

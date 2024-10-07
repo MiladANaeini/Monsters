@@ -114,10 +114,8 @@ public class GamesManager : StateMachine
 
         // Reset game state
         ResetEnemies();
-        //ResetGameObjects();
+        ResetProjectiles();
 
-
-        Debug.Log("Hello");
         // Restore the important stats
         level = currentLevel; // Keep current level
         kills = currentKills; // Keep current kills
@@ -125,7 +123,7 @@ public class GamesManager : StateMachine
         levelUpPoint = currentLevelUpPoint;       // Keep current XP
 
         myPlayer.transform.position = myPlayer.startingPosition;
-        Debug.Log("Hello");
+
         propRandomizer.SpawnProps();
 
         UpdateUI();
@@ -140,17 +138,25 @@ public class GamesManager : StateMachine
         }
 
     }
+    private void ResetProjectiles()
+    {
+        BulletProjectile[] projectiles = FindObjectsOfType<BulletProjectile>();
+        foreach (BulletProjectile projectile in projectiles)
+        {
+            ObjectPoolManager.RetrunObjectToPool(projectile.gameObject);
+        }
+    }
     public void HealthUpgrade()
     {
         if (xp >= healthUpgradeCost && !hasPurchasedHealthUpgrade)
         {
-            xp -= healthUpgradeCost;  // Deduct XP
-            xpNumber.text = xp.ToString();  // Update XP display
+            xp -= healthUpgradeCost;  
+            xpNumber.text = xp.ToString(); 
 
-            myPlayer.IncreaseMaxHealth(5);  // Increase player's max health
+            myPlayer.IncreaseMaxHealth(5);  
 
-            hasPurchasedHealthUpgrade = true;  // Mark as purchased for this level
-            healthUpgradeCost *= 2;  // Double the price for the next level
+            hasPurchasedHealthUpgrade = true;  
+            healthUpgradeCost *= 2;  
 
             // Update price text and disable the button after purchase
             priceText.text = $"Cost: {healthUpgradeCost} XP";
@@ -160,16 +166,16 @@ public class GamesManager : StateMachine
 
     public void UpdateUpgradeButtons()
     {
-        // Enable/disable the upgrade button and update price text dynamically
+       
         if (xp >= healthUpgradeCost && !hasPurchasedHealthUpgrade)
         {
-            upgradeButton.interactable = true;  // Enable button if player can buy
+            upgradeButton.interactable = true; 
         }
         else
         {
-            upgradeButton.interactable = false;  // Disable button if player can't buy
+            upgradeButton.interactable = false;  
         }
-            priceText.text = $"Cost: {healthUpgradeCost} XP";  // Update price
+            priceText.text = $"Cost: {healthUpgradeCost} XP";  
     }
 
 }

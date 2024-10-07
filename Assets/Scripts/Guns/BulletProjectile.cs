@@ -8,7 +8,7 @@ public class BulletProjectile : MonoBehaviour
 
     private void Start()
     {
-        Destroy(gameObject, 5f);
+        Invoke("ReturnToPool", 5f);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -20,12 +20,22 @@ public class BulletProjectile : MonoBehaviour
             {
                 health.TakeDamage(damage);
             }
-            Destroy(gameObject);
+            ReturnToPool();
         }
         else
         {
-            Destroy(gameObject);
+            ReturnToPool();
         }
 
         }
+    private void ReturnToPool()
+    {
+        Rigidbody rb = GetComponent<Rigidbody>(); 
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero;
+        }
+        ObjectPoolManager.RetrunObjectToPool(gameObject);
+
     }
+}
