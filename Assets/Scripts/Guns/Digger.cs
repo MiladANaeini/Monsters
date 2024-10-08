@@ -20,10 +20,10 @@ public class DiggerZone : MonoBehaviour
 
                 }
             }
-            if (health.health <= 0)
-            {
-                GamesManager.instance.OnBuildingDestroyed();
-            }
+            //if (health.health <= 0)
+            //{
+            //    GamesManager.instance.OnBuildingDestroyed();
+            //}
         }
     }
 

@@ -2578,6 +2578,7 @@ MonoBehaviour:
   myPlayer: {fileID: 1561543525}
   propRandomizer: {fileID: 0}
   gunController: {fileID: 0}
+  buildings: {fileID: 0}
   bulletProjectile: {fileID: 0}
   level: 0
   kills: 0
@@ -2587,6 +2588,7 @@ MonoBehaviour:
   xpNumber: {fileID: 1482987835}
   killsNumber: {fileID: 1154041307}
   levelNumber: {fileID: 330416183}
+  buildingsHealth: 0
   healthUpgradeButton: {fileID: 1472931279}
   gunUpgradeButton: {fileID: 1705142731}
   upgradeHealthText: {fileID: 1648776483}
@@ -7503,7 +7505,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1845504770482643955, guid: 5ad866f374b48084a8d3dc233a88591c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16683,7 +16685,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1845504770482643955, guid: 5ad866f374b48084a8d3dc233a88591c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

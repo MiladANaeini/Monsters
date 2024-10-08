@@ -8,17 +8,11 @@ using UnityEngine;
 public class Buildings : Health
 {
     public GameObject buildingHit;
-
-
-
     protected override void Start()
     {
-
+        maxHealth = GamesManager.instance.buildingsHealth;
         base.Start();
-     
         onHealthChanged += UpdateSprite;
-       
-
     }
 
     public void UpdateSprite()
@@ -29,8 +23,9 @@ public class Buildings : Health
 
         if (health <= 0)
         {
+            GamesManager.instance.OnBuildingDestroyed();
             ObjectPoolManager.RetrunObjectToPool(gameObject);
-           
+
         }
     }
 

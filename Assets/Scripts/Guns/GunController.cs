@@ -89,9 +89,7 @@ public class GunController : MonoBehaviour
 
     void ShootProjectile()
     {
-        
         GameObject projectile = ObjectPoolManager.SpawnObject(projectilePrefab, shootPoint.position, shootPoint.rotation);
-        Debug.Log($"Projectile instantiated at: {projectile.transform.position}, Active: {projectile.activeSelf}");
 
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
         rb.velocity = shootPoint.right * projectileSpeed;

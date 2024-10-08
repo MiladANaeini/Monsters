@@ -13,6 +13,7 @@ public class GamesManager : StateMachine
     public PlayerMovement myPlayer;
     public PropRandomizer propRandomizer;
     public GunController gunController;
+    public Buildings buildings;
     public BulletProjectile bulletProjectile;
     public int level;
     public int kills;
@@ -22,6 +23,8 @@ public class GamesManager : StateMachine
     public TMP_Text xpNumber;      
     public TMP_Text killsNumber;   
     public TMP_Text levelNumber;
+
+    public int buildingsHealth;
 
     public Button healthUpgradeButton;
     public Button gunUpgradeButton;
@@ -34,7 +37,9 @@ public class GamesManager : StateMachine
     public TMP_Text upgradeHealthPriceText;
     
     public TMP_Text upgradeGunText;   
-    public TMP_Text upgradeGunPriceText;    
+    public TMP_Text upgradeGunPriceText;
+
+
 
     private void Awake()
     {
@@ -46,6 +51,7 @@ public class GamesManager : StateMachine
         bulletProjectile = FindObjectOfType<BulletProjectile>();
         propRandomizer = FindObjectOfType<PropRandomizer>();
         gunController = FindObjectOfType<GunController>();
+        buildings = FindObjectOfType<Buildings>();
         if (!Menu.gameHasStarted)
         {
             switchState<PauseState>();
@@ -55,8 +61,10 @@ public class GamesManager : StateMachine
         xp = 0;
         myLevelUpPonts = 0;
         levelUpPoint = 60;
+        buildingsHealth = 1;
 
         SetupUpgradeUI();
+        propRandomizer.SpawnProps();
 
         UpdateUI();
     }
@@ -146,6 +154,7 @@ public class GamesManager : StateMachine
         gunController.transform.position = gunController.startingPosition;
 
         propRandomizer.SpawnProps();
+        buildingsHealth = level * buildingsHealth;
 
         UpdateUI();
     }
