@@ -31,6 +31,10 @@ public class Menu : MonoBehaviour
     private void Awake()
     {
         // Initialize the dictionary with all your menus
+  
+    }
+    private void Start()
+    {
         menuUIs = new Dictionary<MenuState, GameObject>
     {
         { MenuState.mainMenu, mainMenuUI },
@@ -39,21 +43,19 @@ public class Menu : MonoBehaviour
         { MenuState.gameOverMenu, gameOverMenuUI },
         { MenuState.levelUpMenu, levelUpMenuUI },
     };
-    }
-    private void Start()
-    {
         GamesManager.OnLevelUp += HandleLevelUp;
-        if (!gameHasStarted)
+
+        if (!Menu.gameHasStarted) // Access the static variable
         {
-            switchState(MenuState.mainMenu);
+            SwitchMenuState(MenuState.mainMenu);
             GamesManager.instance.switchState<PauseState>();
         }
         else
         {
-            switchState(MenuState.pauseMenu);
+            SwitchMenuState(MenuState.None); // No menu shown if game has started
             GamesManager.instance.switchState<PlayingState>();
-            pauseMenuUI.SetActive(false);
         }
+
     }
     private void Update()
     {
@@ -78,31 +80,34 @@ public class Menu : MonoBehaviour
     public void PauseGame()
     {
         isPaused = true;
-        switchState(MenuState.pauseMenu);
+        SwitchMenuState(MenuState.pauseMenu);
         //Time.timeScale = 0f;
     }
     public void ResumeGame()
     {
         //Time.timeScale = 1f;
         isPaused = false;
-        switchState(MenuState.None);
+        SwitchMenuState(MenuState.None);
     }
     public void HandleLevelUp()
     {
-        isPaused = true;
-        switchState(MenuState.levelUpMenu);
-        Time.timeScale = 0f;
+        SwitchMenuState(MenuState.levelUpMenu);
+        GamesManager.instance.switchState<PauseState>();
+
+        //Time.timeScale = 0f;
     }
     public void GameOver()
     {
         isPaused = true;
-        switchState(MenuState.gameOverMenu);
+        SwitchMenuState(MenuState.gameOverMenu);
         UpdateGameOverUI();
         //Time.timeScale = 0f;
     }
 
-    public void switchState(MenuState aState)
+    public void SwitchMenuState(MenuState aState)
     {
+        GamesManager.instance.previousState = state;
+
         foreach (var menu in menuUIs)
         {
             menu.Value.SetActive(menu.Key == aState);
@@ -110,33 +115,7 @@ public class Menu : MonoBehaviour
         state = aState;
         Debug.Log("Current state: " + state);
     }
-    public void Back()
-    {
-        optionsMenuUI.SetActive(false);
 
-        Debug.Log($"Going back to previous state: {previousState}");
-
-        if (state != Menu.MenuState.None)
-        {
-            switchState(state);
-        }
-        else
-        {
-            Debug.LogError("Previous state is invalid!");
-            return;
-        }
-
-        if (state == MenuState.mainMenu)
-        {
-            mainMenuUI.SetActive(true);
-        }
-        else if (state == MenuState.pauseMenu)
-        {
-            pauseMenuUI.SetActive(true);
-        }
-
-        Debug.Log($"Current state after back: {state}");
-    }
     private void UpdateGameOverUI()
     {
         killsText.text = "Kills: " + GamesManager.instance.kills.ToString(); 

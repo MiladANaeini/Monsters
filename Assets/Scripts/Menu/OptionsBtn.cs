@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class OptionsBtn : ButtonAnimation
 {
-    public GameObject optionsMenu;
     public Menu menu;
 
-    private Menu.MenuState previousMenuState;
 
     public void EnterOptions()
     {
-        previousMenuState = menu.state;
-        Debug.Log($"Entering options from {previousMenuState}");
-
-        menu.switchState(Menu.MenuState.optionsMenu);
-        optionsMenu.SetActive(true);
+        if (menu != null)
+        {
+            menu.SwitchMenuState(Menu.MenuState.optionsMenu);
+        }
     }
 
   

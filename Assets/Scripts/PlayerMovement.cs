@@ -70,7 +70,7 @@ public class PlayerMovement : Health
         if (health <= 0)
         {
             //gameOverMenu.SetActive(true);
-            menu.switchState(Menu.MenuState.gameOverMenu);
+            menu.SwitchMenuState(Menu.MenuState.gameOverMenu);
             menu.GameOver();
             Destroy(gameObject); // destroy the player character
         }

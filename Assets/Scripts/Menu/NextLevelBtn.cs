@@ -12,8 +12,8 @@ public class NextLevelBtn : ButtonAnimation
     {
         // Call method in GamesManager to reset enemies and prepare for the next level
         GamesManager.instance.PrepareNextLevel();
+        menu.SwitchMenuState(MenuState.None);
         GamesManager.instance.switchState<PlayingState>();
-        menu.switchState(MenuState.None);
 
     }
 }

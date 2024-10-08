@@ -11,7 +11,8 @@ public class StartBtn : ButtonAnimation
 
     public void StartGame()
     {
-        menu.switchState(MenuState.None);
+        menu.SwitchMenuState(MenuState.None);
+        Menu.gameHasStarted = true;
         GamesManager.instance.switchState<PlayingState>();
     }
 }

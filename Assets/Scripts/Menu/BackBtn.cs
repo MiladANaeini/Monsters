@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class BackBtn : MonoBehaviour
 {
-
-    void Start()
+    public Menu menu;
+  public void OnEventBack()
     {
-        
-    }
-
-    void Update()
-    {
-        
+        if (menu != null) {
+            menu.SwitchMenuState(GamesManager.instance.previousState);
+            Debug.Log($"Going back to previous state: {GamesManager.instance.previousState}");
+        }
     }
 }

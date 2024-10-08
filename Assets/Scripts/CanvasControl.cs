@@ -6,22 +6,22 @@ public class CanvasControl : MonoBehaviour
 {
     public GameObject pauseMenuCanvas;
 
-    private bool isPaused = false;
+    //private bool isPaused = false;
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            isPaused = !isPaused;
-            pauseMenuCanvas.SetActive(isPaused);
-            if (isPaused)
-            {
-                //Time.timeScale = 0f; 
-            }
-            else
-            {
-                //Time.timeScale = 1f;
-            }
-        }
-    }
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Escape))
+    //    {
+    //        isPaused = !isPaused;
+    //        pauseMenuCanvas.SetActive(isPaused);
+    //        if (isPaused)
+    //        {
+    //            //Time.timeScale = 0f; 
+    //        }
+    //        else
+    //        {
+    //            //Time.timeScale = 1f;
+    //        }
+    //    }
+    //}
 }

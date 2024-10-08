@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static Menu;
 
 public class GamesManager : StateMachine
 {
@@ -38,8 +39,8 @@ public class GamesManager : StateMachine
     
     public TMP_Text upgradeGunText;   
     public TMP_Text upgradeGunPriceText;
-
-
+    public Menu menu;
+    public Menu.MenuState previousState;
 
     private void Awake()
     {
@@ -52,16 +53,21 @@ public class GamesManager : StateMachine
         propRandomizer = FindObjectOfType<PropRandomizer>();
         gunController = FindObjectOfType<GunController>();
         buildings = FindObjectOfType<Buildings>();
-        if (!Menu.gameHasStarted)
-        {
-            switchState<PauseState>();
-        }
+        menu = FindObjectOfType<Menu>();
         level = 1;
         kills = 0;
         xp = 0;
         myLevelUpPonts = 0;
         levelUpPoint = 60;
         buildingsHealth = 1;
+
+        //if (!menu.gameHasStarted) // Use the instance reference instead of static
+        //{
+        //    menu.SwitchMenuState(Menu.MenuState.mainMenu); // Use the instance reference for SwitchMenuState
+
+        //    switchState<PauseState>();
+            previousState = Menu.MenuState.mainMenu; // Assuming previousState is still in GamesManager
+        //}
 
         SetupUpgradeUI();
         propRandomizer.SpawnProps();
@@ -95,6 +101,8 @@ public class GamesManager : StateMachine
     }
     private void Update()
     {
+        //Debug.Log("previousState: " + previousState);
+
         updateStateMachine();
     }
     public void OnEnemyDestroyed()

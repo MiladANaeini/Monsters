@@ -8,13 +8,13 @@ using static Menu;
 public class RestartBtn : ButtonAnimation
 {
     public Menu menu;
-    public GameObject pauseMenuUI;
-
 
     public void RestartGame()
     {
-        Menu.gameHasStarted = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        menu.SwitchMenuState(MenuState.None);
+        Menu.gameHasStarted = true;
+        GamesManager.instance.switchState<PlayingState>();
 
     }
 }

@@ -11,7 +11,7 @@ public class PlayingState : State
     public override void enterState()
     {
         base.enterState();
-        Time.timeScale = 1f; // Will be removed after refactor
+        //Time.timeScale = 1f; // Will be removed after refactor
         if (myPlayer == null)
         {
             Debug.LogError("PlayerMovement reference (myPlayer) is not assigned!");
