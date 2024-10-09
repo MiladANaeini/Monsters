@@ -7,6 +7,7 @@ public class PlayingState : State
     public PlayerMovement myPlayer;
     public List<Enemy> myEnemies = new List<Enemy>();
     private GunController myGunController;
+    private RayGunAttack myRayGunAttack;
     private List<EnemySpawner> enemySpawners = new List<EnemySpawner>();
     public override void enterState()
     {
@@ -20,6 +21,14 @@ public class PlayingState : State
         if (myGunController == null)
         {
             myGunController = myPlayer.GetComponentInChildren<GunController>();
+        }
+        if (myRayGunAttack == null)
+        {
+            myRayGunAttack = myPlayer.GetComponent<RayGunAttack>();
+            if (myRayGunAttack == null)
+            {
+                Debug.LogError("RayGunAttack component not found on player!");
+            }
         }
         enemySpawners.AddRange(FindObjectsOfType<EnemySpawner>());
         if (enemySpawners.Count == 0)
@@ -36,10 +45,15 @@ public class PlayingState : State
     public override void updateState()
     {
         base.updateState();
-            myGunController.UpdateGunController();
+        myGunController.UpdateGunController();
+       
         if (myPlayer != null)
         {
             myPlayer.UpdatePlayer(); 
+        }
+        if (myRayGunAttack != null)
+        {
+            myRayGunAttack.RayGunAttackUpdate();
         }
         for (int i = myEnemies.Count - 1; i >= 0; i--)
         {

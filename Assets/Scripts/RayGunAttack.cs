@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class RayGunAttack : MonoBehaviour
 {
     private GameObject attackAreaRayRight = default;
     private GameObject attackAreaRayLeft = default;
@@ -26,7 +26,7 @@ public class PlayerAttack : MonoBehaviour
         yield return new WaitForSeconds(4f);
         startTheAttack = true;
     }
-    void Update()
+    public void RayGunAttackUpdate()
     {
            
         if (startTheAttack && attackCoroutine == null)
