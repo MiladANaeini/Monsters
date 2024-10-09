@@ -9,7 +9,7 @@ public class Enemy : Health
     public float moveSpeed;
     private float distance;
     private UpdateSpriteOnHit updateSpriteOnHit;
-    public bool chaseFreeRoam = true;
+    public bool chaseFreeRoam = false;
     public float chaseInRange = 5f;
     public bool useSinMovement = false; 
     public float waveAmplitude = 0.02f;  
@@ -97,6 +97,7 @@ public class Enemy : Health
             playerMovement.TakeDamage(damageAmount);
         }
     }
+
     public void ResetHealth()
     {
         updateSpriteOnHit?.RevertToOriginalSprite();

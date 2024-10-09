@@ -2035,6 +2035,76 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!1 &557698760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 557698763}
+  - component: {fileID: 557698762}
+  - component: {fileID: 557698761}
+  m_Layer: 0
+  m_Name: SlimeGreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &557698761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557698760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff2388b7860099447b4f3135112fc40e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitSprite: {fileID: 21300000, guid: 473095a400b64cf44b7c833d117daf42, type: 3}
+  originalSprite: {fileID: 21300000, guid: b87ffe88dd0f8144dadc6150996ad4b2, type: 3}
+--- !u!114 &557698762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557698760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b75d3850eed7223449f4b29229c6e620, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1
+  health: 0
+  moveSpeed: 10
+  chaseFreeRoam: 1
+  chaseInRange: 5
+  useSinMovement: 0
+  waveAmplitude: 0.02
+  waveFrequency: 0.5
+  enemyBlood: {fileID: 5832016478787541665, guid: 1d12c22615e96524b9dabb6f52993271, type: 3}
+  enemyXp: {fileID: 2380239529134952964, guid: f69fdf752fa50594d8ee9434c2a32882, type: 3}
+  damageAmount: 1
+--- !u!4 &557698763
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557698760}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &576632739
 GameObject:
   m_ObjectHideFlags: 0
@@ -16983,3 +17053,4 @@ SceneRoots:
   - {fileID: 612925567}
   - {fileID: 1093350937}
   - {fileID: 512058614}
+  - {fileID: 557698763}
