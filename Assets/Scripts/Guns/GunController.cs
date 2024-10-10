@@ -45,6 +45,7 @@ public class GunController : MonoBehaviour
     }
     public void UpdateGunController()
     {
+
         if (enemiesInRange.Count > 0)
         {
             UpdateClosestEnemy();

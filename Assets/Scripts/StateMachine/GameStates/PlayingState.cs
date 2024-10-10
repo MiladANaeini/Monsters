@@ -6,22 +6,21 @@ public class PlayingState : State
 {
     public PlayerMovement myPlayer;
     public List<Enemy> myEnemies = new List<Enemy>();
-    private GunController myGunController;
+    public List<GunController> myGunControllers;
+
     private RayGunAttack myRayGunAttack;
     private List<EnemySpawner> enemySpawners = new List<EnemySpawner>();
     public override void enterState()
     {
         base.enterState();
-        //Time.timeScale = 1f; // Will be removed after refactor
+
         if (myPlayer == null)
         {
             Debug.LogError("PlayerMovement reference (myPlayer) is not assigned!");
             return;
         }
-        if (myGunController == null)
-        {
-            myGunController = myPlayer.GetComponentInChildren<GunController>();
-        }
+        myGunControllers = new List<GunController>(myPlayer.GetComponentsInChildren<GunController>());
+
         if (myRayGunAttack == null)
         {
             myRayGunAttack = myPlayer.GetComponent<RayGunAttack>();
@@ -45,8 +44,11 @@ public class PlayingState : State
     public override void updateState()
     {
         base.updateState();
-        myGunController.UpdateGunController();
-       
+        foreach (var gunController in myGunControllers)
+        {
+            gunController.UpdateGunController();
+        }
+
         if (myPlayer != null)
         {
             myPlayer.UpdatePlayer(); 

@@ -13,7 +13,7 @@ public class GamesManager : StateMachine
 
     public PlayerMovement myPlayer;
     public PropRandomizer propRandomizer;
-    public GunController gunController;
+    public List<GunController> gunControllers;
     public Buildings buildings;
     public BulletProjectile bulletProjectile;
     public int level;
@@ -51,27 +51,21 @@ public class GamesManager : StateMachine
     {
         bulletProjectile = FindObjectOfType<BulletProjectile>();
         propRandomizer = FindObjectOfType<PropRandomizer>();
-        gunController = FindObjectOfType<GunController>();
+        gunControllers = new List<GunController>(FindObjectsOfType<GunController>());
         buildings = FindObjectOfType<Buildings>();
         menu = FindObjectOfType<Menu>();
+
         level = 1;
         kills = 0;
         xp = 0;
         myLevelUpPonts = 0;
         levelUpPoint = 60;
         buildingsHealth = 1;
-
-        //if (!menu.gameHasStarted) // Use the instance reference instead of static
-        //{
-        //    menu.SwitchMenuState(Menu.MenuState.mainMenu); // Use the instance reference for SwitchMenuState
-
-        //    switchState<PauseState>();
-            previousState = Menu.MenuState.mainMenu; // Assuming previousState is still in GamesManager
-        //}
+       
+        previousState = Menu.MenuState.mainMenu; 
 
         SetupUpgradeUI();
         propRandomizer.SpawnProps();
-
         UpdateUI();
     }
     private void SetupUpgradeUI()
@@ -101,8 +95,6 @@ public class GamesManager : StateMachine
     }
     private void Update()
     {
-        //Debug.Log("previousState: " + previousState);
-
         updateStateMachine();
     }
     public void OnEnemyDestroyed()
@@ -159,12 +151,22 @@ public class GamesManager : StateMachine
         levelUpPoint = currentLevelUpPoint;       // Keep current XP
 
         myPlayer.transform.position = myPlayer.startingPosition;
-        gunController.transform.position = gunController.startingPosition;
+        ResetGunControllersPositions();
 
         propRandomizer.SpawnProps();
         buildingsHealth = level * buildingsHealth;
 
         UpdateUI();
+    }
+    private void ResetGunControllersPositions()
+    {
+        foreach (GunController gunController in gunControllers)
+        {
+            if (gunController != null)
+            {
+                gunController.transform.position = gunController.startingPosition; // Reset to starting position
+            }
+        }
     }
     private void ResetEnemies()
     {
@@ -208,8 +210,10 @@ public class GamesManager : StateMachine
             xp -= gunUpgradeCost;  
             xpNumber.text = xp.ToString();
 
-            gunController.IncreaseShootingRate(2);
-
+            foreach (GunController gunController in gunControllers) // Update to loop through all GunControllers
+            {
+                gunController.IncreaseShootingRate(2);
+            }
             hasPurchasedGunUpgrade = true;  
             gunUpgradeCost *= 2;
 

@@ -87,8 +87,12 @@ public class UpgradeEditor : EditorWindow
         // Add the GunController script
         GunController gunController = gunObject.AddComponent<GunController>();
 
-        // Set the projectilePrefab, projectileSpeed, and shootingInterval
-        gunController.projectilePrefab = projectilePrefab;
+        //string projectilePath = "Assets/Art/Projectile/" + projectilePrefab.name + ".prefab";
+        //PrefabUtility.SaveAsPrefabAsset(projectilePrefab, projectilePath);
+        //GameObject savedProjectilePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(projectilePath);
+
+        // Assign the loaded prefab to gunController
+        gunController.projectilePrefab = projectilePrefab; // Directly use the prefab passed from CreateProjectilePrefab
         gunController.projectileSpeed = projectileSpeed;
         gunController.shootingInterval = shootingInterval;
 
@@ -100,19 +104,20 @@ public class UpgradeEditor : EditorWindow
 
         // Create a child GameObject called "Shooting Point"
         GameObject shootingPoint = new GameObject("ShootingPoint");
+        shootingPoint.layer = LayerMask.NameToLayer("Gun");
         shootingPoint.transform.parent = gunObject.transform;
         shootingPoint.transform.localPosition = shootingPointPosition;
         shootingPoint.transform.localEulerAngles = shootingPointRotation;
         shootingPoint.transform.localScale = shootingPointScale;
 
+        gunController.shootPoint = shootingPoint.transform;
 
         // Create the prefab in the project folder
-        string localPath = "Assets/Art/Weapons" + gunObject.name + ".prefab";
+        string localPath = "Assets/Art/" + gunObject.name + ".prefab";
         localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
         PrefabUtility.SaveAsPrefabAsset(gunObject, localPath);
 
-        // Clean up the scene by deleting the temporary GameObject
-        DestroyImmediate(gunObject);
+        GameObject gunInScene = (GameObject)PrefabUtility.InstantiatePrefab(gunObject);
 
         Debug.Log("Gun prefab created successfully at " + localPath);
     }
@@ -120,6 +125,9 @@ public class UpgradeEditor : EditorWindow
     {
         // Create new GameObject for the bullet
         GameObject projectileObject = new GameObject(projectileName);
+
+        projectileObject.layer = LayerMask.NameToLayer("Projectile");
+
 
         // Add a SpriteRenderer and assign the sprite
         SpriteRenderer spriteRenderer = projectileObject.AddComponent<SpriteRenderer>();
@@ -148,6 +156,9 @@ public class UpgradeEditor : EditorWindow
 
         Debug.Log("projectile prefab created successfully at " + localPath);
 
-        return projectileObject; // Return the created projectile prefab
+        GameObject savedProjectilePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(localPath);
+
+
+        return AssetDatabase.LoadAssetAtPath<GameObject>(localPath); ; // Return the created projectile prefab
     }
 }
