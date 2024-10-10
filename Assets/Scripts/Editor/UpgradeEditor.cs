@@ -12,6 +12,7 @@ public class UpgradeEditor : EditorWindow
     private Vector3 gunPosition = Vector3.zero;
     private Vector3 gunRotation = Vector3.zero;
     private Vector3 gunScale = Vector3.one;
+    private Vector3 projectileScale = new Vector3(3f, 3f, 3f);
 
     string projectileName = "New Projectile";
     private Sprite projectileSprite;
@@ -23,7 +24,9 @@ public class UpgradeEditor : EditorWindow
     private Vector3 shootingPointScale = Vector3.one;
 
     public float projectileSpeed = 10f; 
-    public float shootingInterval = 0.5f; 
+    public float shootingInterval = 0.5f;
+
+    private bool showGunFields = true; // Initial state for Gun fields
 
     [MenuItem("Window/Upgrade Editor")]
     public static void ShowWindow()
@@ -33,38 +36,42 @@ public class UpgradeEditor : EditorWindow
 
     void OnGUI()
     {
-        GUILayout.Label("Create Gun Prefab", EditorStyles.boldLabel);
-        gunName = EditorGUILayout.TextField("Name", gunName);
-        gunSprite = (Sprite)EditorGUILayout.ObjectField("Gun Sprite", gunSprite, typeof(Sprite), false);
-        GUILayout.Label("Transform", EditorStyles.boldLabel);
-        gunPosition = EditorGUILayout.Vector3Field("Position", gunPosition);
-        gunRotation = EditorGUILayout.Vector3Field("Rotation", gunRotation);
-        gunScale = EditorGUILayout.Vector3Field("Scale", gunScale);
+        GUILayout.Label("Create Upgrades", EditorStyles.boldLabel);
+        showGunFields = EditorGUILayout.Foldout(showGunFields, "Create Gun");
+        if (showGunFields)
+        {
+            gunName = EditorGUILayout.TextField("Name", gunName);
+            gunSprite = (Sprite)EditorGUILayout.ObjectField("Gun Sprite", gunSprite, typeof(Sprite), false);
+            GUILayout.Label("Transform", EditorStyles.boldLabel);
+            gunPosition = EditorGUILayout.Vector3Field("Position", gunPosition);
+            gunRotation = EditorGUILayout.Vector3Field("Rotation", gunRotation);
+            gunScale = EditorGUILayout.Vector3Field("Scale", gunScale);
 
-        colliderOffset = EditorGUILayout.Vector2Field("Collider Offset", colliderOffset);
-        colliderRadius = EditorGUILayout.FloatField("Collider Radius", colliderRadius);
+            colliderOffset = EditorGUILayout.Vector2Field("Collider Offset", colliderOffset);
+            colliderRadius = EditorGUILayout.FloatField("Collider Radius", colliderRadius);
 
-        // Shooting Point Transform Fields
-        GUILayout.Label("Shooting Point Transform", EditorStyles.boldLabel);
-        shootingPointPosition = EditorGUILayout.Vector3Field("Position", shootingPointPosition);
-        shootingPointRotation = EditorGUILayout.Vector3Field("Rotation", shootingPointRotation);
-        shootingPointScale = EditorGUILayout.Vector3Field("Scale", shootingPointScale);
+            // Shooting Point Transform Fields
+            GUILayout.Label("Shooting Point Transform", EditorStyles.boldLabel);
+            shootingPointPosition = EditorGUILayout.Vector3Field("Position", shootingPointPosition);
+            shootingPointRotation = EditorGUILayout.Vector3Field("Rotation", shootingPointRotation);
+            shootingPointScale = EditorGUILayout.Vector3Field("Scale", shootingPointScale);
+        
 
-        // Bullet Prefab Creation
-        GUILayout.Space(20);
+            GUILayout.Space(20);
         GUILayout.Label("Create Projectile Prefab", EditorStyles.boldLabel);
         projectileName = EditorGUILayout.TextField("Projectile Name", projectileName);
         projectileSprite = (Sprite)EditorGUILayout.ObjectField("Projectile Sprite", projectileSprite, typeof(Sprite), false);
         projectileDamage = EditorGUILayout.IntField("Projectile Damage", projectileDamage);
+        projectileScale = EditorGUILayout.Vector3Field("Projectile Scale", projectileScale);
 
-        // Add fields for projectile speed and shooting interval
+            // Add fields for projectile speed and shooting interval
         projectileSpeed = EditorGUILayout.FloatField("Projectile Speed", projectileSpeed);
         shootingInterval = EditorGUILayout.FloatField("Shooting Interval", shootingInterval);
-
         if (GUILayout.Button("Create Gun Prefab"))
         {
             GameObject projectilePrefab = CreateProjectilePrefab();
             CreateGunPrefab(projectilePrefab);
+        }
         }
     }
 
@@ -86,10 +93,6 @@ public class UpgradeEditor : EditorWindow
 
         // Add the GunController script
         GunController gunController = gunObject.AddComponent<GunController>();
-
-        //string projectilePath = "Assets/Art/Projectile/" + projectilePrefab.name + ".prefab";
-        //PrefabUtility.SaveAsPrefabAsset(projectilePrefab, projectilePath);
-        //GameObject savedProjectilePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(projectilePath);
 
         // Assign the loaded prefab to gunController
         gunController.projectilePrefab = projectilePrefab; // Directly use the prefab passed from CreateProjectilePrefab
@@ -127,6 +130,7 @@ public class UpgradeEditor : EditorWindow
         GameObject projectileObject = new GameObject(projectileName);
 
         projectileObject.layer = LayerMask.NameToLayer("Projectile");
+        projectileObject.transform.localScale = gunScale;
 
 
         // Add a SpriteRenderer and assign the sprite

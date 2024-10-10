@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Upgrades : MonoBehaviour
+[System.Serializable]
+public class Upgrade
 {
-    public new string name;
+    public string name;
     public int currentCost;
     public int level = 1;
     public int baseCost;
     public int healthIncrease;
     public Button button;
 
-    public Upgrades(string upgradeName, int baseUpgradeCost, int healthIncreaseAmount, Button upgradeButton)
+    public Upgrade(string upgradeName, int baseUpgradeCost, int healthIncreaseAmount, Button upgradeButton)
     {
         name = upgradeName;
         baseCost = baseUpgradeCost;

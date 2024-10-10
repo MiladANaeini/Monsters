@@ -14,7 +14,13 @@ public class EnemyEditor : EditorWindow
     Sprite hitSprite;
 
     GameObject enemyBloodPrefab;
-    GameObject enemyXpPrefab;
+    GameObject selectedXP;
+    string[] xpPrefabNames;
+    GameObject[] xpPrefabs;
+    int selectedXpIndex = 0;
+
+    float minimumSpawnTime = 1f; 
+    float maximumSpawnTime = 3f; 
 
     enum MovementType { FreeRoam, ChaseInRange, SinMovement}
     MovementType selectedMovement = MovementType.FreeRoam;
@@ -27,7 +33,29 @@ public class EnemyEditor : EditorWindow
     {
         GetWindow<EnemyEditor>("Enemy Editor");
     }
-     void OnGUI()
+
+    void OnEnable()
+    {
+        if (enemyBloodPrefab == null)
+        {
+            enemyBloodPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Scripts/Enemy/Blood/EnemyBlood.prefab");
+        }
+        // Load XP prefabs dynamically from the folder
+        string xpFolderPath = "Assets/Scripts/Enemy/XP";
+        string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { xpFolderPath });
+
+        xpPrefabNames = new string[guids.Length];
+        xpPrefabs = new GameObject[guids.Length];
+
+        for (int i = 0; i < guids.Length; i++)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+            xpPrefabs[i] = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            xpPrefabNames[i] = xpPrefabs[i].name;
+        }
+    }
+
+    void OnGUI()
     {
         GUILayout.Label("Create Enemy", EditorStyles.boldLabel);
 
@@ -42,7 +70,12 @@ public class EnemyEditor : EditorWindow
         hitSprite = (Sprite)EditorGUILayout.ObjectField(hitSprite, typeof(Sprite), false);
 
         enemyBloodPrefab = (GameObject)EditorGUILayout.ObjectField("Enemy Blood Prefab", enemyBloodPrefab, typeof(GameObject), false);
-        enemyXpPrefab = (GameObject)EditorGUILayout.ObjectField("Enemy XP Prefab", enemyXpPrefab, typeof(GameObject), false);
+
+        selectedXpIndex = EditorGUILayout.Popup("Enemy XP Prefab", selectedXpIndex, xpPrefabNames);
+        selectedXP = xpPrefabs[selectedXpIndex];
+
+        minimumSpawnTime = EditorGUILayout.FloatField("Minimum Spawn Time", minimumSpawnTime);
+        maximumSpawnTime = EditorGUILayout.FloatField("Maximum Spawn Time", maximumSpawnTime);
 
         selectedMovement = (MovementType)EditorGUILayout.EnumPopup("Movement Type", selectedMovement);
 
@@ -64,7 +97,7 @@ public class EnemyEditor : EditorWindow
     void CreateEnemy()
     {
         // Create a new GameObject for the enemy
-        GameObject enemy = new(enemyName);
+        GameObject enemy = new GameObject(enemyName);
         enemy.AddComponent<Enemy>();
 
         // Assign the components and properties to the enemy
@@ -81,7 +114,7 @@ public class EnemyEditor : EditorWindow
         enemyScript.maxHealth = maxHealth;
         enemyScript.damageAmount = damageAmount;
         enemyScript.enemyBlood = enemyBloodPrefab;
-        enemyScript.enemyXp = enemyXpPrefab;
+        enemyScript.enemyXp = selectedXP;
 
         // Assign movement type based on the selected dropdown value
         if (selectedMovement == MovementType.FreeRoam)
@@ -103,9 +136,48 @@ public class EnemyEditor : EditorWindow
         updateSpriteOnHit.originalSprite = originalSprite;
         updateSpriteOnHit.hitSprite = hitSprite;
 
-        // Position the enemy at the origin (you can customize this)
-        enemy.transform.position = Vector3.zero;
+        // Create and save the enemy prefab to the specified path
+        string prefabPath = $"Assets/Scripts/Enemy/{enemyName}.prefab";
+        PrefabUtility.SaveAsPrefabAsset(enemy, prefabPath);
+        Debug.Log("Enemy prefab created at: " + prefabPath);
 
+        // Position the enemy at the origin (you can customize this)
+        SetupSpawner(prefabPath);
         Debug.Log("Enemy created: " + enemyName);
+    }
+
+    void SetupSpawner(string enemyPrefabPath)
+    {
+        GameObject enemySpawnerPF = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Scripts/Enemy/EnemySpawnerPF.prefab");
+        if (enemySpawnerPF == null)
+        {
+            Debug.LogError("Please assign the Enemy Spawner PF prefab.");
+            return;
+        }
+
+        // Instantiate the EnemySpawnerPF in the scene
+        GameObject spawnerInstance = Instantiate(enemySpawnerPF, Vector3.zero, Quaternion.identity);
+
+        // Rename the instantiated GameObject to "EnemySpawnerGO"
+        spawnerInstance.name = "EnemySpawnerGO";
+
+        // Set the tag and layer for the spawner instance
+        spawnerInstance.tag = "Enemy"; // Set the tag to Enemy
+        spawnerInstance.layer = LayerMask.NameToLayer("Enemy"); // Set the layer to Enemy
+
+        // Get the EnemySpawner component and assign the created enemy prefab and spawn times
+        EnemySpawner enemySpawner = spawnerInstance.GetComponent<EnemySpawner>();
+        if (enemySpawner != null)
+        {
+            enemySpawner.EnemyPreFab = AssetDatabase.LoadAssetAtPath<GameObject>(enemyPrefabPath); // Use the created enemy prefab path
+            enemySpawner.minimumSpawnTime = minimumSpawnTime;
+            enemySpawner.maximumSpawnTime = maximumSpawnTime;
+
+            Debug.Log("Spawner set up with enemy prefab: " + enemySpawner.EnemyPreFab.name);
+        }
+        else
+        {
+            Debug.LogError("The EnemySpawner component is missing on the prefab.");
+        }
     }
 }
